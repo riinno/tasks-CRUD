@@ -71,6 +71,19 @@ def update_task(id):
   return jsonify({"message": "Não existe tarefa com esse id"}), 404
 
 # ----------------------------------------------------------------------------------
+# Rota Delete Tasks
+
+@app.route("/tasks/<int:id>", methods=["DELETE"])
+def delete_task(id):
+  for task in tasks:
+    if task.id == id:
+      tasks.remove(task)
+      
+      return jsonify({"message": "Tarefa deletada com sucesso"})
+    
+  return jsonify({"message": "Não existe tarefa com esse id"}), 404
+
+# ----------------------------------------------------------------------------------
 # Rota manual base
 
 if __name__ == "__main__":
