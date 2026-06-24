@@ -19,13 +19,13 @@ def create_task():
   global task_id
   data = request.get_json()
   
-  new_task = Task(id=task_id, title=data["title"], description=data.get("description", ""))
+  new_task = Task(id=task_id, title=data["title"], description=data["description"])
   task_id += 1
   tasks.append(new_task)
   
   # teste printando as tasks
-  # for task in tasks:
-  #   print(f"{task.id}, {task.title}, {task.description}\n")
+  for task in tasks:
+    print(f"{task.id}, {task.title}, {task.description}\n")
   
   return jsonify({"message": "Nova tarefa criada com sucesso"})
 
