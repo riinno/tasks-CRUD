@@ -1,6 +1,6 @@
 # by Riinno, 2026
 
-# --------------------------------------------
+# ----------------------------------------------------------------------------------
 # Importação de dependencias e variaveis base
 
 from flask import Flask, request, jsonify
@@ -11,12 +11,12 @@ app = Flask(__name__)
 tasks = []
 task_id = 0
 
-# ------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
 # Rota Create Task
 
 @app.route("/tasks", methods=["POST"])
 def create_task():
-  global task_id
+  global task_id, total_tasks
   data = request.get_json()
   
   new_task = Task(id=task_id, title=data["title"], description=data["description"])
@@ -29,10 +29,34 @@ def create_task():
   
   return jsonify({"message": "Nova tarefa criada com sucesso"})
 
-# ------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+# Rota Read Task
+
+@app.route("/tasks", methods=["GET"])
+def read_tasks():
+  tasks_dictionary = [task.to_dictionary() for task in tasks]
+
+  output = {
+    "tasks": tasks_dictionary,
+    "total_tasks": len(tasks_dictionary)
+  }
+
+  return jsonify(output)
+
+# Rota Read Task para task com id especifico
+
+@app.route("/tasks/<int:id>", methods=["GET"])
+def read_specific_task(id):
+  for task in tasks:
+    if task.id == id:
+      return jsonify(task.to_dictionary())
+
+  return jsonify({"message": "Não existe tarefa com esse id"}), 404
+
+# ----------------------------------------------------------------------------------
 # Rota manual base
 
 if __name__ == "__main__":
   app.run(debug=True)
 
-# ------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
