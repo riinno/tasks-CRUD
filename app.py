@@ -54,6 +54,23 @@ def read_specific_task(id):
   return jsonify({"message": "Não existe tarefa com esse id"}), 404
 
 # ----------------------------------------------------------------------------------
+# Rota Update Tasks
+
+@app.route("/tasks/<int:id>", methods=["PUT"])
+def update_task(id):
+  data = request.get_json()
+
+  for task in tasks:
+    if task.id == id:
+      task.title = data["title"]
+      task.description = data["description"]
+      task.completed = data["completed"]
+
+      return jsonify({"message": "Tarefa atualizada com sucesso"})
+    
+  return jsonify({"message": "Não existe tarefa com esse id"}), 404
+
+# ----------------------------------------------------------------------------------
 # Rota manual base
 
 if __name__ == "__main__":
