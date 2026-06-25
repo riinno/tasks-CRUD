@@ -27,7 +27,7 @@ def create_task():
   for task in tasks:
     print(f"{task.id}, {task.title}, {task.description}\n")
   
-  return jsonify({"message": "Nova tarefa criada com sucesso"})
+  return jsonify({"message": "Nova tarefa criada com sucesso", "id": new_task.id})
 
 # ----------------------------------------------------------------------------------
 # Rota Read Task
